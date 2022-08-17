@@ -1,2 +1,2 @@
-# Sistema de Gestão
-Um sistema de gestão feito para uma loja revendedora de roupas.
+# Sistema de Gestão (Em desenvolvimento)
+Um sistema de gestão para uma loja revendedora de roupas.
