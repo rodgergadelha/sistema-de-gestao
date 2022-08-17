@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+    <script src="../js/novo-pedido-script.js"></script>
+    <title>Novo pedido</title>
+</head>
+<body>
+    <header>
+        <div class="image-container">
+            <img class="logo" alt="logo blessed conceito">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#">Vendas</a></li>
+                <li><a href="#">Financeiro</a></li>
+                <li><a href="#">Estoque</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Dados do pedido</h2>
+
+            <div class="form-container">
+                <form id="pedidos-form" action="../process-forms/process-pedidos-form.php" method="post" enctype="multipart/form-data">
+                    <section>
+                        <div class="row">
+                            <div class="">
+                                <label for="nome-produto">Cliente</label>
+                                <input type="text" id="nome-cliente" name="nome-cliente" required>
+                            </div>
+        
+                            <div class="">
+                                <label for="nome-vendedor">Vendedor</label>
+                                <input type="text" id="nome-vendedor" name="nome-vendedor" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="">
+                                <a href="#">Cadastrar cliente</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="produtos-section">
+                        <h3>Produtos</h3>
+
+                        <div class="row">
+                            <div class="">
+                                <label for="nome-produto">Produto/Código</label>
+                                <input type="text" id="nome-produto" name="nome-produto[]" required>
+                            </div>
+        
+                            <div class="">
+                                <label for="quantidade-produto">Qtde.</label>
+                                <input type="number" id="quantidade-produto" name="quantidade-produto[]" required>
+                            </div>
+
+                            <div class="">
+                                <label for="valor-unit-produto">Valor unit.</label>
+                                <input type="number" id="valor-unit-produto" name="valor-unit-produto[]" step="0.01" required>
+                            </div>
+
+                            <div class="">
+                                <label for="valor-total-produto">Valor total</label>
+                                <input type="number" id="valor-total-produto" name="valor-total-produto[]" step="0.01" required>
+                            </div>
+
+                            <button class="remover-produto-pedido" form="">Remover</button>
+
+                        </div>
+
+                        <div class="row">
+                            <span id="adicionar-produto">+ Adicionar outro produto</span>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Totais do pedido</h3>
+
+                        <div class="row">
+                            <div class="">
+                                <label for="valor-produtos">Valor dos produtos</label>
+                                <input type="number" id="valor-produtos" name="valor-produtos" step="0.01" required>
+                            </div>
+
+                            <div class="">
+                                <label for="valor-frete">Valor do frete</label>
+                                <input type="number" id="valor-frete" name="valor-frete" step="0.01">
+                            </div>
+
+                            <div class="">
+                                <label for="valor-desconto">Valor do desconto</label>
+                                <input type="number" id="valor-desconto" name="valor-desconto" step="0.01">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="">
+                                <label for="valor-total-pedido">Valor total do pedido</label>
+                                <input type="number" id="valor-total-pedido" name="valor-total-pedido" step="0.01" value=0 readonly>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Pagamento</h3>
+
+                        <div class="row">
+                            <div class="">
+                                <label for="condicao-pagamento">Condição de pagamento</label>
+                                <select name="condicao-pagamento" id="condicao-pagamento">
+                                    <option value="Dinheiro físico">Dinheiro físico</option>
+                                    <option value="Boleto">Boleto Bancário</option>
+                                    <option value="Pix">Pix</option>
+                                    <option value="Crédito">Cartão de crédito</option>
+                                </select>
+                            </div>
+
+                            <div class="">
+                                <label for="parcelas">Quantidade de parcelas</label>
+                                <input type="number" id="parcelas" name="parcelas" value=1>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Detalhes do pedido</h3>
+
+                        <div class="row">
+                            <div class="">
+                                <label for="data-pedido">Data do pedido</label>
+                                <input type="date" id="data-pedido" name="data-pedido">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="">
+                                <label for="observacoes">Observações</label>
+                                <textarea id="observacoes" name="observacoes"></textarea>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="botoes-container">
+                        <button class="botao-rosa">Salvar</button>
+                        <button form="" onclick="location = 'pedidos.php';">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

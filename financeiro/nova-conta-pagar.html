@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet"> 
+    <title>Contas a pagar</title>
+</head>
+<body>
+    <header>
+        <div class="image-container">
+            <img class="logo" alt="logo blessed conceito">
+        </div>
+        
+        <nav>
+            <ul>
+                <li><a href="#">Vendas</a></li>
+                <li><a href="#">Financeiro</a></li>
+                <li><a href="#">Estoque</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Dados do pagamento</h2>
+
+            <div class="form-container">
+                <form id="despesa-form" action="../process-forms/process-despesa-form.php" method="post">
+
+                    <div class="info">
+                        <label for="nome-despesa">Nome da despesa</label>
+                        <input type="text" id="nome-despesa" name="nome-despesa">
+                    </div>
+
+                    <div class="info">
+                        <label for="categoria-despesa">Categoria</label>
+                        <input type="text" id="categoria-despesa" name="categoria-despesa">
+                    </div>
+
+                    <div class="info">
+                        <label for="forma-pagamento">Forma de pagamento</label>
+                        <select id="forma-pagamento" name="forma-pagamento">
+                            <option value="Dinheiro físico">Dinheiro físico</option>
+                            <option value="Boleto">Boleto Bancário</option>
+                            <option value="Pix">Pix</option>
+                            <option value="Crédito">Cartão de crédito</option>
+                        </select>
+                    </div>
+
+                    <div class="info">
+                        <label for="codigo-barras">Código de barras</label>
+                        <input type="number" id="codigo-barras" name="codigo-barras">
+                    </div>
+
+                    <div class="info">
+                        <label for="vencimento">Vencimento</label>
+                        <input type="date" id="vencimento" name="vencimento">
+                    </div>
+
+                    <div class="info">
+                        <label for="valor">Valor</label>
+                        <input type="number" id="valor" step="0.01" name="valor">
+                    </div>
+
+                    <div class="info">
+                        <label for="emissao">Emissão</label>
+                        <input type="date" id="emissao" name="emissao">
+                    </div>
+
+                    <div class="info">
+                        <label for="observacoes">Observações</label>
+                        <textarea id="observacoes" name="observacoes"></textarea>
+                    </div>
+
+                    <div class="botoes-container">
+                        <button class="botao-rosa">Salvar</button>
+                        <button form="" onclick="location = 'contas-pagar.html';">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+            
+
+        </div>
+    </main>
+
+</body>
+</html>
