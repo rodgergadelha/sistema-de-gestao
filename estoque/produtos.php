@@ -16,6 +16,10 @@
 
     // Fechando conexão
     mysqli_close($conn);
+
+    // Iniciando a $_SESSION com os dados que serão enviados para outra página
+    session_start();
+    $_SESSION["produtos"] = $produtos;
 ?>
 
 <!DOCTYPE html>
@@ -68,12 +72,22 @@
                 </tr>
 
                 <?php foreach ($produtos as $produto) { ?>
-                    <tr>
-                        <th class="checkbox-column"><input type="checkbox"></th>
-                        <th class="coluna-nome"><?php echo htmlspecialchars($produto["nome"]) ?></th>
-                        <th><?php echo htmlspecialchars($produto["codigo"]) ?></th>
-                        <th><?php echo htmlspecialchars($produto["unidade"]) ?></th>
-                        <th><?php echo htmlspecialchars($produto["valor_venda"]) ?></th>
+                    <tr onMouseOver="this.style.cursor = 'pointer'" onclick="location = 'cadastro-produtos.php?id=<?php echo $produto['id']; ?>';">
+                        <th class="checkbox-column">
+                            <input type="checkbox">
+                        </th>
+                        <th class="coluna-nome">
+                            <?php echo htmlspecialchars($produto["nome"]) ?>
+                        </th>
+                        <th>
+                            <?php echo htmlspecialchars($produto["codigo"]) ?>
+                        </th>
+                        <th>
+                            <?php echo htmlspecialchars($produto["unidade"]) ?>
+                        </th>
+                        <th>
+                            <?php echo htmlspecialchars($produto["valor_venda"]) ?>
+                        </th>
                     </tr>
                 <?php } ?>
             </table>
