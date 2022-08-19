@@ -30,7 +30,9 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+    <script src="../js/produtos-selection-script.js"></script>
+    <script src="../js/tableToExcel.js"></script>
     <title>Estoque</title>
 </head>
 <body>
@@ -54,9 +56,13 @@
 
             <div class="opcoes-container">
                 <div class="botoes-container">
-                    <button onclick="location = 'cadastro-produtos.html';" class="adicionar-produto botao-rosa">Adicionar produto</button>
-                    <button class="gerar-relatorio">Gerar planilha de produtos</button>
-                    <button class="excluir-produto">Excluir produto</button>
+                    <button onclick="location = 'cadastro-produtos.php';" class="adicionar-produto botao-rosa">Adicionar produto</button>
+                    <button onclick="TableToExcel.convert(document.getElementById('produtos-table'));" class="gerar-relatorio">Gerar planilha de produtos</button>
+                    
+                    <!-- formulário que será usado para a ação de excluir produtos -->
+                    <form style="display: inline-block;" id="excluir-produto-form" action="../process-forms/excluir-produto.php" method="post">
+                        <button class="excluir-produto">Excluir produto</button>
+                    </form>
                 </div>
     
                 <input class="pesquisar-pedido pesquisar" type="text" placeholder="Pesquisar">
@@ -64,7 +70,7 @@
 
             <table id="produtos-table">
                 <tr>
-                    <th class="primeira-linha checkbox-column"><input type="checkbox"></th>
+                    <th class="primeira-linha checkbox-column"><input id="super-checkbox" type="checkbox"></th>
                     <th class="primeira-linha coluna-nome">Nome</th>
                     <th class="primeira-linha">Código</th>
                     <th class="primeira-linha">Estoque</th>
@@ -72,11 +78,12 @@
                 </tr>
 
                 <?php foreach ($produtos as $produto) { ?>
-                    <tr onMouseOver="this.style.cursor = 'pointer'" onclick="location = 'cadastro-produtos.php?id=<?php echo $produto['id']; ?>';">
+                    <tr>
                         <th class="checkbox-column">
-                            <input type="checkbox">
+                            <input form="excluir-produto-form" type="checkbox" name="checkbox[]" value=<?php echo $produto["id"] ?>>
                         </th>
-                        <th class="coluna-nome">
+
+                        <th class="coluna-nome" onMouseOver="this.style.cursor = 'pointer'" onclick="location = 'cadastro-produtos.php?id=<?php echo $produto['id']; ?>';">
                             <?php echo htmlspecialchars($produto["nome"]) ?>
                         </th>
                         <th>
