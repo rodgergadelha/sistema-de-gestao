@@ -31,6 +31,7 @@ session_abort();
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet"> 
+    <script src="../js/cadastro-produtos-imagem.js"></script>
     <title>Cadastro de produtos</title>
 </head>
 <body>
@@ -47,10 +48,10 @@ session_abort();
             </ul>
         </nav>
     </header>
-
+    
     <main>
         <div class="container">
-            <h2>Novo produto</h2>
+            <h2><?php if($produto_req) echo "Editar produto"; else echo "Novo produto"; ?></h2>
 
             <div class="form-container">
                 <form id="produtos-form" action='<?php echo $action; ?>' method="post" enctype="multipart/form-data">
@@ -110,8 +111,15 @@ session_abort();
                     </div>
 
                     <div class="info">
+                        <?php
+                            if($produto_req && $produto_req["imagem"] != "(Sem imagem)") {
+                                $imagem = $produto_req["imagem"];
+                                $path = "../imagens/$imagem";
+                            }
+                        ?>
+                        <img id="imagem-produto" src='<?php echo $path; ?>' alt="imagem do produto" width="150px" height="150px">
                         <label for="carregar-imagem-produto">Carregar imagem do produto (opcional)</label>
-                        <input type="file" id="carregar-imagem-produto" name="imagem-produto">
+                        <input type="file" id="carregar-imagem-produto" name="imagem-produto" accept="image/png, image/jpeg">
                     </div>
 
                     <div class="info">

@@ -16,6 +16,10 @@
 
     // Fechando conexão
     mysqli_close($conn);
+
+    // Iniciando a $_SESSION com os dados que serão enviados para outra página
+    session_start();
+    $_SESSION["pedidos"] = $pedidos;
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +30,10 @@
     <link rel="stylesheet" href="../style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
+    <script src="../js/selection-script.js"></script>
+    <script src="../js/tableToExcel.js"></script>
+    <script src="../js/search-script-tabelas.js"></script>
     <title>Pedidos</title>
 </head>
 <body>
@@ -50,9 +57,15 @@
 
             <div class="opcoes-container">
                 <div class="botoes-container">
-                    <button class="novo-pedido botao-rosa" onclick="location = 'novo-pedido.html';">Novo pedido</button>
-                    <button class="gerar-relatorio">Gerar planilha de pedidos</button>
-                    <button class="excluir-pedido">Excluir pedido</button>
+                    <button class="novo-pedido botao-rosa" onclick="location = 'novo-pedido.php';">Novo pedido</button>
+                    <button onclick="TableToExcel.convert(document.getElementById('pedidos-table'));" class="gerar-relatorio">Gerar planilha de pedidos</button>
+                    
+                    <!-- formulário que será usado para a ação de excluir pedidos -->
+                    <form style="display: inline-block;" id="excluir-pedido-form" action="../process-forms/excluir-linha.php" method="post">
+                        <input type="text" name="redirect" value="../vendas/pedidos.php" style="display: none;">
+                        <input type="text" name="nome-tabela" value="pedido" style="display: none;">
+                        <button class="excluir-pedido">Excluir pedido</button>
+                    </form>
                 </div>
     
                 <input class="pesquisar-pedido pesquisar" type="text" placeholder="Pesquisar">
@@ -61,20 +74,34 @@
             <div class="table-container">
                 <table id="pedidos-table">
                     <tr>
-                        <th class="primeira-linha checkbox-column"><input type="checkbox"></th>
+                        <th class="primeira-linha checkbox-column"><input id="super-checkbox" type="checkbox"></th>
                         <th class="primeira-linha">N°</th>
                         <th class="primeira-linha">Data</th>
                         <th class="primeira-linha">Cliente</th>
                         <th class="primeira-linha">Valor total</th>
+                        <th class="primeira-linha"></th>
                     </tr>
     
                     <?php foreach ($pedidos as $pedido) { ?>
                         <tr>
-                            <th class="checkbox-column"><input type="checkbox"></th>
-                            <th><?php echo htmlspecialchars($pedido["id"]) ?></th>
-                            <th><?php echo htmlspecialchars($pedido["data_pedido"]) ?></th>
-                            <th><?php echo htmlspecialchars($pedido["nome_cliente"]) ?></th>
-                            <th><?php echo htmlspecialchars($pedido["valor_total"]) ?></th>
+                            <th class="checkbox-column">
+                                <input form="excluir-pedido-form" type="checkbox" name="checkbox[]" value=<?php echo $pedido["id"] ?>>
+                            </th>
+                            <th>
+                                <?php echo htmlspecialchars($pedido["id"]) ?>
+                            </th>
+                            <th>
+                                <?php echo htmlspecialchars($pedido["data_pedido"]) ?>
+                            </th>
+                            <th>
+                                <?php echo htmlspecialchars($pedido["nome_cliente"]) ?>
+                            </th>
+                            <th>
+                                <?php echo htmlspecialchars($pedido["valor_total"]) ?>
+                            </th>
+                            <th>
+                                <a href="detalhes-pedido.php?id=<?php echo $pedido["id"] ?>">Detalhes</a>
+                            </th>
                         </tr>
                     <?php } ?>
                 </table>

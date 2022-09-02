@@ -25,7 +25,7 @@ if($_FILES["imagem-produto"]["size"] != 0 && $_FILES["imagem-produto"]["error"] 
     $tname = $_FILES["imagem-produto"]["tmp_name"];
 
     // Movendo o arquivo para a pasta 'imagens'
-    move_uploaded_file($tname, "imagens/" . $imagem);
+    move_uploaded_file($tname, "../imagens/" . $imagem);
 }
 
 // inserindo dados na tabela produto do banco de dados
@@ -35,7 +35,7 @@ $sql = "INSERT INTO produto (nome, codigo, unidade, marca, valor_venda, valor_cu
 
 // Salvando dados
 if(mysqli_query($conn, $sql)) {
-    echo "<h2>Dados salvos!</h2>";
-}else {
-    echo "<h2>Erro.</h2>";
+    // Redirecionando o usuário para a página 'produtos.php'
+    header("Location: ../estoque/produtos.php");
+    exit();
 }

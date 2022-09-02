@@ -3,6 +3,7 @@
 include_once "conexao.php";
 
 // dados a serem carregados para o banco de dados
+$id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
 $nome = $_POST["nome-despesa"];
 $categoria = $_POST["categoria-despesa"];
 $forma_pagamento = $_POST["forma-pagamento"];
@@ -13,8 +14,10 @@ $emissao = $_POST["emissao"];
 $obs = $_POST["observacoes"];
 
 // inserindo dados na tabela conta_a_pagar do banco de dados
-$sql = "INSERT INTO conta_a_pagar (nome, categoria, forma_pagamento, codigo_barras, vencimento, valor, emissao, obs)
-        VALUES ('$nome', '$categoria', '$forma_pagamento', $codigo_barras, '$vencimento', $valor, '$emissao', '$obs')";
+$sql = "UPDATE conta_a_pagar
+        SET nome = '$nome', categoria = '$categoria', forma_pagamento = '$forma_pagamento',
+        codigo_barras = $codigo_barras, vencimento = '$vencimento', valor = $valor,
+        emissao = '$emissao', obs = '$obs' WHERE id = $id;";
 
 
 // Salvando dados

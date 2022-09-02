@@ -3,6 +3,7 @@
 include_once "conexao.php";
 
 // Dados do cliente físico
+$id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
 $nome = $_POST["nome-cliente"];
 $cpf = $_POST["cpf-cliente"];
 $nascimento = $_POST["nascimento-cliente"];
@@ -13,9 +14,11 @@ $email = filter_input(INPUT_POST, "email-cliente", FILTER_VALIDATE_EMAIL);
 $obs = $_POST["observacoes"];
 
 
-// Criando comando sql que insere dados do cliente na tabela cliente;
-$sql = "INSERT INTO cliente (categoria, nome, cpf, nascimento, genero, telefone, email, obs, nome_fantasia)
-        VALUES ('$categoria', '$nome', '$cpf', '$nascimento', '$genero', '$telefone', '$email', '$obs', '')";
+// modificando dados do cliente
+$sql = "UPDATE cliente
+SET categoria = '$categoria', nome = '$nome', cpf = '$cpf',
+nascimento = '$nascimento', genero = '$genero', telefone = '$telefone',
+email = '$email', obs = '$obs', nome_fantasia = '' WHERE id = $id;";
 
 // Fazendo query do comando sql
 if(mysqli_query($conn, $sql)) {

@@ -1,14 +1,14 @@
-<!-- Conectando-se com o banco de dados e obtendo dados dos clientes -->
+<!-- Conectando-se com o banco de dados e obtendo dados dos produtos -->
 <?php
     include_once "../process-forms/conexao.php";
 
-    // Obtendo todas as linhas da tabela cliente
+    // Obtendo todas as linhas da tabela produto
     $sql = "SELECT  * FROM produto";
 
     //Fazendo query e obtendo resultados
     $result = mysqli_query($conn, $sql);
 
-    // Salvando linhas da tabela 'clientes' como um array
+    // Salvando linhas da tabela 'produtos' como um array
     $produtos = array_reverse(mysqli_fetch_all($result, MYSQLI_ASSOC));
 
     // Liberando memória
@@ -31,8 +31,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
-    <script src="../js/produtos-selection-script.js"></script>
+    <script src="../js/selection-script.js"></script>
     <script src="../js/tableToExcel.js"></script>
+    <script src="../js/search-script-tabelas.js"></script>
     <title>Estoque</title>
 </head>
 <body>
@@ -60,7 +61,9 @@
                     <button onclick="TableToExcel.convert(document.getElementById('produtos-table'));" class="gerar-relatorio">Gerar planilha de produtos</button>
                     
                     <!-- formulário que será usado para a ação de excluir produtos -->
-                    <form style="display: inline-block;" id="excluir-produto-form" action="../process-forms/excluir-produto.php" method="post">
+                    <form style="display: inline-block;" id="excluir-produto-form" action="../process-forms/excluir-linha.php" method="post">
+                        <input type="text" name="redirect" value="../estoque/produtos.php" style="display: none;">
+                        <input type="text" name="nome-tabela" value="produto" style="display: none;">
                         <button class="excluir-produto">Excluir produto</button>
                     </form>
                 </div>

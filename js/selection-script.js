@@ -3,7 +3,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     superCheckbox.addEventListener('change', () => {
         for(checkbox of document.getElementsByName("checkbox[]")) {
-            checkbox.checked = superCheckbox.checked;
+            // Marcando apenas as checkboxes que aparecem ao usuário
+            if(checkbox.parentNode.parentNode.style.display != "none") checkbox.checked = superCheckbox.checked;
         }
     }, false);
 

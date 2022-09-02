@@ -84,6 +84,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
     <script src="../js/fluxo-caixa-script.js"></script>
+    <script src="../js/tableToExcel.js"></script>
     <title>Fluxo de caixa</title>
 </head>
 <body>
@@ -107,7 +108,7 @@
 
             <div class="opcoes-container">
                 <div class="botoes-container">
-                    <button class="gerar-relatorio botao-rosa">Gerar planilha do fluxo de caixa</button>
+                    <button onclick="TableToExcel.convert(document.getElementById('fluxo-table'));" class="gerar-relatorio botao-rosa">Gerar planilha do fluxo de caixa</button>
                 </div>
 
                 <form id="date-form" action="fluxo-caixa.php" method="post">
@@ -116,7 +117,7 @@
                 </form>
             </div>
 
-            <div class="table-container fluxo-tables">
+            <div id="fluxo-table" class="table-container fluxo-tables">
                 <table id="saldo-total-table">
                     <tr>
                         <th class="primeira-linha">Saldo - Todas as contas</th>

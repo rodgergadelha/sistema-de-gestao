@@ -85,7 +85,7 @@ button{
 
 .pesquisar {
     float: right;
-    width: 250px;
+    width: 230px;
 }
 
 
@@ -101,11 +101,16 @@ button, input{
     color: white;
 }
 
-table, tr{
-    border: 1px solid gray;
-    border-collapse: collapse;
-    border-radius: 2px;
+
+table {
+    margin: 30px auto;
     font-size: medium;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+
+tr{
+    border-bottom: 1px solid #ddd;
 }
 
 .primeira-linha {
@@ -114,11 +119,7 @@ table, tr{
 }
 
 th {
-    padding: 10px 50px;
-}
-
-table {
-    margin: 30px auto;
+    padding: 10px 40px;
 }
 
 .fluxo-tables table{
@@ -204,7 +205,7 @@ section h3 {
 .row div {
     display: flex;
     flex-direction: column;
-    margin-right: 30px;
+    margin-right: 20px;
 }
 
 .row div input[type=number] {
@@ -229,4 +230,19 @@ section h3 {
 
 #clientes-juridicos-form {
     display: none;
+}
+
+
+.lista-nomes {
+    list-style-type: none;
+    position: absolute;
+}
+
+.lista-nomes li {
+    background-color: rgb(219, 219, 219);
+    border: 1px solid rgb(173, 173, 173);
+    width: 300px;
+    padding: 5px 15px;
+    margin-top: -1px;
+    cursor: pointer;
 }

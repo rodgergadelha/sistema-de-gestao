@@ -2,6 +2,7 @@
 
 include_once "conexao.php";
 
+
 // dados a serem carregados para o banco de dados
 $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
 $nome = $_POST["nome-produto"];
@@ -14,7 +15,14 @@ $tamanho = filter_input(INPUT_POST, "tamanho-produto", FILTER_VALIDATE_FLOAT);
 $fornecedor = $_POST["fornecedor-produto"];
 $categoria = $_POST["categoria-produto"];
 $obs = $_POST["observacoes"];
-$imagem = "(Sem imagem)";
+
+//Obtendo a localização da imagem antiga para removê-la
+$sql_imagem_antiga = "SELECT imagem FROM produto WHERE id = $id;";
+$result = mysqli_query($conn, $sql_imagem_antiga);
+$imagem_antiga = mysqli_fetch_all($result)[0][0];
+mysqli_free_result($result);
+$path_imagem_antiga = "../imagens/$imagem_antiga"; 
+$imagem = $imagem_antiga;
 
 // Upload da imagem
 if($_FILES["imagem-produto"]["size"] != 0 && $_FILES["imagem-produto"]["error"] == 0) {
@@ -25,8 +33,10 @@ if($_FILES["imagem-produto"]["size"] != 0 && $_FILES["imagem-produto"]["error"] 
     // Nome do arquivo temp (localização inicial)
     $tname = $_FILES["imagem-produto"]["tmp_name"];
 
+    // Removendo a imagem antiga
+    unlink($path_imagem_antiga);
     // Movendo o arquivo para a pasta 'imagens'
-    move_uploaded_file($tname, "imagens/" . $imagem);
+    move_uploaded_file($tname, "../imagens/" . $imagem);
 }
 
 // modificando dados do produto
@@ -36,9 +46,9 @@ $sql = "UPDATE produto
     categoria = '$categoria', obs = '$obs', imagem = '$imagem'
     WHERE id = $id;";
 
-// Salvando dados
+// Fazendo query do comando sql
 if(mysqli_query($conn, $sql)) {
-    echo "<h2>Dados salvos!</h2>";
-}else {
-    echo "<h2>Erro.</h2>";
+    // Redirecionando o usuário para a página 'produtos.php'
+    header("Location: ../estoque/produtos.php");
+    exit();
 }
