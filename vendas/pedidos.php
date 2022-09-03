@@ -39,14 +39,35 @@
 <body>
     <header>
         <div class="image-container">
-            <img class="logo" alt="logo blessed conceito">
+            <a href="../index.html"><img class="logo" alt="logo blessed conceito"></a>
         </div>
         
         <nav>
             <ul>
-                <li><a href="#">Vendas</a></li>
-                <li><a href="#">Financeiro</a></li>
-                <li><a href="#">Estoque</a></li>
+                <li>
+                    <span>Vendas</span>
+                    <div class="dropdown-content">
+                        <a href="cadastro-clientes.php">Cadastrar cliente</a>
+                        <a href="clientes.php">Clientes</a>
+                        <a href="novo-pedido.php">Novo pedido</a>
+                        <a href="pedidos.php">Pedidos</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Financeiro</span>
+                    <div class="dropdown-content">
+                        <a href="../financeiro/contas-pagar.php">Contas a pagar</a>
+                        <a href="../financeiro/nova-conta-pagar.php">Nova conta a pagar</a>
+                        <a href="../financeiro/fluxo-caixa.php">Fluxo de caixa</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Estoque</span>
+                    <div class="dropdown-content">
+                        <a href="../estoque/produtos.php">Produtos</a>
+                        <a href="../estoque/cadastro-produtos.php">Cadastrar produto</a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
@@ -75,7 +96,6 @@
                 <table id="pedidos-table">
                     <tr>
                         <th class="primeira-linha checkbox-column"><input id="super-checkbox" type="checkbox"></th>
-                        <th class="primeira-linha">N°</th>
                         <th class="primeira-linha">Data</th>
                         <th class="primeira-linha">Cliente</th>
                         <th class="primeira-linha">Valor total</th>
@@ -88,16 +108,13 @@
                                 <input form="excluir-pedido-form" type="checkbox" name="checkbox[]" value=<?php echo $pedido["id"] ?>>
                             </th>
                             <th>
-                                <?php echo htmlspecialchars($pedido["id"]) ?>
-                            </th>
-                            <th>
                                 <?php echo htmlspecialchars($pedido["data_pedido"]) ?>
                             </th>
                             <th>
                                 <?php echo htmlspecialchars($pedido["nome_cliente"]) ?>
                             </th>
                             <th>
-                                <?php echo htmlspecialchars($pedido["valor_total"]) ?>
+                                R$ <?php echo number_format($pedido["valor_total"], 2, ","); ?>
                             </th>
                             <th>
                                 <a href="detalhes-pedido.php?id=<?php echo $pedido["id"] ?>">Detalhes</a>

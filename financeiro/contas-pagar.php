@@ -39,14 +39,35 @@
 <body>
     <header>
         <div class="image-container">
-            <img class="logo" alt="logo blessed conceito">
+            <a href="../index.html"><img class="logo" alt="logo blessed conceito"></a>
         </div>
         
         <nav>
             <ul>
-                <li><a href="#">Vendas</a></li>
-                <li><a href="#">Financeiro</a></li>
-                <li><a href="#">Estoque</a></li>
+                <li>
+                    <span>Vendas</span>
+                    <div class="dropdown-content">
+                        <a href="../vendas/cadastro-clientes.php">Cadastrar cliente</a>
+                        <a href="../vendas/clientes.php">Clientes</a>
+                        <a href="../vendas/novo-pedido.php">Novo pedido</a>
+                        <a href="../vendas/pedidos.php">Pedidos</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Financeiro</span>
+                    <div class="dropdown-content">
+                        <a href="contas-pagar.php">Contas a pagar</a>
+                        <a href="nova-conta-pagar.php">Nova conta a pagar</a>
+                        <a href="fluxo-caixa.php">Fluxo de caixa</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Estoque</span>
+                    <div class="dropdown-content">
+                        <a href="../estoque/produtos.php">Produtos</a>
+                        <a href="../estoque/cadastro-produtos.php">Cadastrar produto</a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
@@ -88,7 +109,7 @@
                         <th onMouseOver="this.style.cursor = 'pointer'" onclick="location = 'nova-conta-pagar.php?id=<?php echo $conta_pagar['id']; ?>';"><?php echo htmlspecialchars($conta_pagar["nome"]) ?></th>
                         <th><?php echo htmlspecialchars($conta_pagar["vencimento"]) ?></th>
                         <th><?php echo htmlspecialchars($conta_pagar["emissao"]) ?></th>
-                        <th><?php echo htmlspecialchars($conta_pagar["valor"]) ?></th>
+                        <th>R$ <?php echo number_format($conta_pagar["valor"], 2, ","); ?></th>
                     </tr>
                 <?php } ?>
             </table>

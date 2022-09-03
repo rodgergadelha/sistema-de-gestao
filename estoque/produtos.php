@@ -39,14 +39,35 @@
 <body>
     <header>
         <div class="image-container">
-            <img class="logo" alt="logo blessed conceito">
+            <a href="../index.html"><img class="logo" alt="logo blessed conceito"></a>
         </div>
         
         <nav>
             <ul>
-                <li><a href="#">Vendas</a></li>
-                <li><a href="#">Financeiro</a></li>
-                <li><a href="#">Estoque</a></li>
+                <li>
+                    <span>Vendas</span>
+                    <div class="dropdown-content">
+                        <a href="../vendas/cadastro-clientes.php">Cadastrar cliente</a>
+                        <a href="../vendas/clientes.php">Clientes</a>
+                        <a href="../vendas/novo-pedido.php">Novo pedido</a>
+                        <a href="../vendas/pedidos.php">Pedidos</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Financeiro</span>
+                    <div class="dropdown-content">
+                        <a href="../financeiro/contas-pagar.php">Contas a pagar</a>
+                        <a href="../financeiro/nova-conta-pagar.php">Nova conta a pagar</a>
+                        <a href="../financeiro/fluxo-caixa.php">Fluxo de caixa</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Estoque</span>
+                    <div class="dropdown-content">
+                        <a href="produtos.php">Produtos</a>
+                        <a href="cadastro-produtos.php">Cadastrar produto</a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
@@ -96,7 +117,7 @@
                             <?php echo htmlspecialchars($produto["unidade"]) ?>
                         </th>
                         <th>
-                            <?php echo htmlspecialchars($produto["valor_venda"]) ?>
+                            R$ <?php echo number_format($produto["valor_venda"], 2, ","); ?>
                         </th>
                     </tr>
                 <?php } ?>

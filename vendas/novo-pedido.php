@@ -34,15 +34,36 @@ mysqli_free_result($result);
 </head>
 <body>
     <header>
-        <div class="image-container">
-            <img class="logo" alt="logo blessed conceito">
+    <div class="image-container">
+            <a href="../index.html"><img class="logo" alt="logo blessed conceito"></a>
         </div>
         
         <nav>
             <ul>
-                <li><a href="#">Vendas</a></li>
-                <li><a href="#">Financeiro</a></li>
-                <li><a href="#">Estoque</a></li>
+                <li>
+                    <span>Vendas</span>
+                    <div class="dropdown-content">
+                        <a href="cadastro-clientes.php">Cadastrar cliente</a>
+                        <a href="clientes.php">Clientes</a>
+                        <a href="novo-pedido.php">Novo pedido</a>
+                        <a href="pedidos.php">Pedidos</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Financeiro</span>
+                    <div class="dropdown-content">
+                        <a href="../financeiro/contas-pagar.php">Contas a pagar</a>
+                        <a href="../financeiro/nova-conta-pagar.php">Nova conta a pagar</a>
+                        <a href="../financeiro/fluxo-caixa.php">Fluxo de caixa</a>
+                    </div>
+                </li>
+                <li>
+                    <span>Estoque</span>
+                    <div class="dropdown-content">
+                        <a href="../estoque/produtos.php">Produtos</a>
+                        <a href="../estoque/cadastro-produtos.php">Cadastrar produto</a>
+                    </div>
+                </li>
             </ul>
         </nav>
     </header>
