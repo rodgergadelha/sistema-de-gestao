@@ -28,7 +28,7 @@ if(count($_GET) > 0) {
 // Obtendo informações dos totais do pedido e salvando em arrays
 $quant_produtos = 1;
 if($pedido_req) {
-    $produtos_nomes =  explode(" ", $pedido_req["produtos"]);
+    $produtos_nomes =  explode(",", $pedido_req["produtos"]);
     $produtos_quantidades = explode(" ", $pedido_req["quantidades"]);
     $produtos_valores_totais = explode(" ", $pedido_req["valores_totais"]);
     $produtos_valores_unit = explode(" ", $pedido_req["valores_unit"]);

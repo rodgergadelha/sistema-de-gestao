@@ -6,7 +6,7 @@ include_once "conexao.php";
 $id = filter_input(INPUT_POST, "id", FILTER_VALIDATE_INT);
 $nome_cliente = $_POST["nome-cliente"];
 $nome_vendedor = $_POST["nome-vendedor"];
-$produtos = implode(" ", $_POST["nome-produto"]);
+$produtos = implode(",", $_POST["nome-produto"]);
 $valor_total = filter_input(INPUT_POST, "valor-total-pedido", FILTER_VALIDATE_FLOAT);
 $pagamento = $_POST["condicao-pagamento"];
 $data_pedido = $_POST["data-pedido"];

@@ -23,7 +23,7 @@ if(count($_POST) > 0) {
             $sql_pedido = "SELECT * FROM pedido WHERE id = $id;";
             $result = mysqli_query($conn, $sql_pedido);
             $pedido = mysqli_fetch_all($result, MYSQLI_ASSOC)[0];
-            $produtos_array = explode(" ", $pedido["produtos"]);
+            $produtos_array = explode(",", $pedido["produtos"]);
             $quantidades_array = explode(" ", $pedido["quantidades"]);
 
             foreach($produtos_array as $produto_nome) {

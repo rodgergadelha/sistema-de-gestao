@@ -109,7 +109,7 @@ mysqli_free_result($result);
                         <div class="row">
                             <div class="">
                                 <label>Produto/Código</label>
-                                <input type="text" liid="" class="nome-produto" name="nome-produto[]" required autocomplete="off" qtdmaxima="" valorunit="">
+                                <input type="text" liid="" class="nome-produto" name="nome-produto[]" required autocomplete="off" qtdmaxima="" valorunit="" value="">
                                 <div class="ul-container">
                                     <ul class="lista-nomes lista-produtos">
                                         <?php
@@ -120,7 +120,7 @@ mysqli_free_result($result);
                                                 $id = $produto["id"];
                                                 $valor_unit = $produto["valor_venda"];
 
-                                                echo "<li id='$id' style='display: none;' codigo='$codigo' qtdmaxima='$unidade' valorunit='$valor_unit'>$nome_produto</li>";
+                                                if($unidade > 0) echo "<li id='$id' style='display: none;' codigo='$codigo' qtdmaxima='$unidade' valorunit='$valor_unit'>$nome_produto</li>";
                                             }
                                         ?>
                                     </ul>

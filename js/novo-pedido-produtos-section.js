@@ -53,8 +53,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
     for(let nomeProdutoLi of listaNomesProdutos) {
         nomeProdutoLi.addEventListener("click", () => {
-            nomeProdutoInput.value = nomeProdutoLi.innerText;
-            nomeProdutoInput.setAttribute("value", nomeProdutoLi.innerText);
+            nomeProdutoInput.value = nomeProdutoLi.textContent;
             nomeProdutoInput.setAttribute("qtdmaxima", nomeProdutoLi.getAttribute("qtdmaxima"));
             nomeProdutoInput.setAttribute("valorunit", nomeProdutoLi.getAttribute("valorunit"));
             nomeProdutoInput.setAttribute("liid", nomeProdutoLi.id);
@@ -76,54 +75,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
     });
 
+    // Se o input do nome de um produto mudar, a referência ao objeto desse input
+    // será salva em "ultimoInputModificado". Essa referência será usada para preencher
+    // os campos de quantidade, valor unitário e valor total do produto escolhido
     nomeProdutoInput.addEventListener("change", ()=>{
         ultimoInputModificado = nomeProdutoInput;
-    });
-
-    window.addEventListener("click", () => {
-        let produtoExiste = false;
-        let listaNomesProdutos = document.getElementById("produtos-section").getElementsByTagName("li");
-
-        for(let nomeProdutoLi of listaNomesProdutos) {
-            if(ultimoInputModificado && nomeProdutoLi.innerText == ultimoInputModificado.value) {
-                produtoExiste = true;
-                ultimoInputModificado.setAttribute("qtdmaxima", nomeProdutoLi.getAttribute("qtdmaxima"));
-                ultimoInputModificado.setAttribute("liid", nomeProdutoLi.id);
-                ultimoInputModificado.setAttribute("valorunit", nomeProdutoLi.getAttribute("valorunit"));
-                let ultimoInputModificadoRow = ultimoInputModificado.parentNode.parentNode;
-                let qtdInput = ultimoInputModificadoRow.getElementsByClassName("quantidade-produto")[0];
-                let valorUnitInput = ultimoInputModificadoRow.getElementsByClassName("valor-unit-produto")[0];
-                let valorTotalInput = ultimoInputModificadoRow.getElementsByClassName("valor-total-produto")[0];
-                qtdInput.setAttribute("value", "1");
-                qtdInput.setAttribute("max", nomeProdutoLi.getAttribute("qtdmaxima"));
-                valorUnitInput.setAttribute("value", nomeProdutoLi.getAttribute("valorunit"));
-                valorTotalInput.setAttribute("value", parseFloat(valorUnitInput.getAttribute("value")) * parseFloat(qtdInput.getAttribute("value")));
-                removerOpcaoDasOutrasLinhas(ultimoInputModificadoRow);
-                atualizarValoresProdutos();
-            }
-
-            nomeProdutoLi.style.display = "none";
-            
-        }
-
-        if(ultimoInputModificado && !produtoExiste && ultimoInputModificado.value != "") {
-            alert("Produto não cadastrado!");
-            ultimoInputModificado.value = "";
-            ultimoInputModificado.setAttribute("liid", "none");
-        }
-        
-        for(let nomeClienteLi of listaNomesClientes) {
-            nomeClienteLi.style.display = "none";
-        }
-
-        if(antigaOpcaoEscolhida && ultimoInputModificado &&
-        (antigaOpcaoEscolhida.getAttribute("id") != ultimoInputModificado.getAttribute("liid")
-        || ultimoInputModificado.value == "")){
-            adicionarOpcaoAsOutrasLinhas(antigaOpcaoEscolhida);
-        }
-
-        ultimoInputModificado = null;
-        
     });
 
     nomeProdutoInput.addEventListener("keyup", () => {
@@ -215,13 +171,12 @@ window.addEventListener("DOMContentLoaded", (event) => {
 
         retirarOpcoesUsadas(novaLinha);
 
-        // Inserindo nova linha ao site
+        // Inserindo nova linha na seção de produtos
         adicionarProduto.parentNode.insertAdjacentElement("beforebegin", novaLinha);
 
         for(let nomeProdutoLi of novaLinha.getElementsByTagName("li")) {
             nomeProdutoLi.addEventListener("click", () => {
-                novaLinhaNomeInput.value = nomeProdutoLi.innerText;
-                novaLinhaNomeInput.setAttribute("value", nomeProdutoLi.innerText);
+                novaLinhaNomeInput.value = nomeProdutoLi.textContent;
                 novaLinhaNomeInput.setAttribute("qtdmaxima", nomeProdutoLi.getAttribute("qtdmaxima"));
                 novaLinhaNomeInput.setAttribute("valorunit", nomeProdutoLi.getAttribute("valorunit"));
                 novaLinhaNomeInput.setAttribute("liid", nomeProdutoLi.id);
@@ -233,6 +188,62 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
 
     });
+
+    // Quando o usuário clicar em algum canto da tela, a lista de opções de produtos
+    // irá desaparecer. Além disso, se o usuário não tiver clicado em algumas das opções,
+    // será verificado se o texto que ele digitou no input de nome/código do produto cor-
+    // responde a algum produto cadastrado no banco de dados.
+    window.addEventListener("click", () => {
+        let produtoExiste = false;
+        let listaNomesProdutos = document.getElementById("produtos-section").getElementsByTagName("li");
+
+        // Checando qual dos produtos na lista foi escolhido e mudando os dados da linha onde
+        // o input foi modificado. A variável "ultimoInputModificado" guarda uma referência a
+        // esse input.
+        for(let nomeProdutoLi of listaNomesProdutos) {
+            if(ultimoInputModificado && nomeProdutoLi.innerText == ultimoInputModificado.value) {
+                produtoExiste = true;
+                ultimoInputModificado.setAttribute("qtdmaxima", nomeProdutoLi.getAttribute("qtdmaxima"));
+                ultimoInputModificado.setAttribute("liid", nomeProdutoLi.id);
+                ultimoInputModificado.setAttribute("valorunit", nomeProdutoLi.getAttribute("valorunit"));
+                let ultimoInputModificadoRow = ultimoInputModificado.parentNode.parentNode;
+                let qtdInput = ultimoInputModificadoRow.getElementsByClassName("quantidade-produto")[0];
+                let valorUnitInput = ultimoInputModificadoRow.getElementsByClassName("valor-unit-produto")[0];
+                let valorTotalInput = ultimoInputModificadoRow.getElementsByClassName("valor-total-produto")[0];
+                qtdInput.value = "1";
+                qtdInput.max = nomeProdutoLi.getAttribute("qtdmaxima");
+                valorUnitInput.value = nomeProdutoLi.getAttribute("valorunit");
+                valorTotalInput.value = parseFloat(valorUnitInput.value) * parseFloat(qtdInput.value);
+                removerOpcaoDasOutrasLinhas(ultimoInputModificadoRow);
+                atualizarValoresProdutos();
+            }
+
+            nomeProdutoLi.style.display = "none";
+            
+        }
+
+        if(ultimoInputModificado && !produtoExiste && ultimoInputModificado.value != "") {
+            alert("Produto não cadastrado!");
+            ultimoInputModificado.value = "";
+            ultimoInputModificado.setAttribute("liid", "none");
+        }
+        
+        // Fazendo a lista de opções de clientes desaparecer caso o usuário
+        // clique em qualquer canto da tela.
+        for(let nomeClienteLi of listaNomesClientes) {
+            nomeClienteLi.style.display = "none";
+        }
+
+        if(antigaOpcaoEscolhida && ultimoInputModificado &&
+        (antigaOpcaoEscolhida.getAttribute("id") != ultimoInputModificado.getAttribute("liid")
+        || ultimoInputModificado.value == "")){
+            adicionarOpcaoAsOutrasLinhas(antigaOpcaoEscolhida);
+        }
+
+        ultimoInputModificado = null;
+        
+    });
+
 
     // Função que remove as opções já escolhidas da nova linha a ser adicionada
     function retirarOpcoesUsadas(novaLinha) {
