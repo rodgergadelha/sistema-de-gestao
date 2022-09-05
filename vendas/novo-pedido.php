@@ -29,7 +29,6 @@ mysqli_free_result($result);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
     <script src="../js/novo-pedido-produtos-section.js"></script>
-    <script src="../js/totais-pedido-script.js"></script>
     <title>Novo pedido</title>
 </head>
 <body>
@@ -110,7 +109,7 @@ mysqli_free_result($result);
                         <div class="row">
                             <div class="">
                                 <label>Produto/Código</label>
-                                <input type="text" liid="" class="nome-produto" name="nome-produto[]" required autocomplete="off" qtdmaxima="">
+                                <input type="text" liid="" class="nome-produto" name="nome-produto[]" required autocomplete="off" qtdmaxima="" valorunit="">
                                 <div class="ul-container">
                                     <ul class="lista-nomes lista-produtos">
                                         <?php
@@ -119,8 +118,9 @@ mysqli_free_result($result);
                                                 $unidade = $produto["unidade"];
                                                 $codigo = $produto["codigo"];
                                                 $id = $produto["id"];
+                                                $valor_unit = $produto["valor_venda"];
 
-                                                echo "<li id='$id' style='display: none;' codigo='$codigo' qtdmaxima='$unidade'>$nome_produto</li>";
+                                                echo "<li id='$id' style='display: none;' codigo='$codigo' qtdmaxima='$unidade' valorunit='$valor_unit'>$nome_produto</li>";
                                             }
                                         ?>
                                     </ul>
@@ -134,7 +134,7 @@ mysqli_free_result($result);
 
                             <div class="">
                                 <label>Valor unit.</label>
-                                <input type="number" class="valor-unit-produto" name="valor-unit-produto[]" value="0" step="0.01" required>
+                                <input type="number" class="valor-unit-produto" name="valor-unit-produto[]" value="0" step="0.01" readonly>
                             </div>
 
                             <div class="">

@@ -8,13 +8,21 @@ window.addEventListener("DOMContentLoaded", (event) => {
     let valorTotalPrimeiraLinha = primeiraLinhaProdutosSection.getElementsByClassName("valor-total-produto")[0];
     let antigaOpcaoEscolhida;
     let ultimoInputModificado = null;
+    let valorFrete = document.getElementById("valor-frete");
+    let valorDesconto = document.getElementById("valor-desconto");
+    let valorTotalPedido = document.getElementById("valor-total-pedido");
+    let valoresProdutos = document.getElementById("valor-produtos");
 
-    // Adicionando listeners para os inputs numéricos
-    valorUnitinputPrimeiraLinha.addEventListener("input", ()=>{
-        valorTotalPrimeiraLinha.value = valorUnitinputPrimeiraLinha.value * qtdInputPrimeiraLinha.value;
-    });
+
+    // Se os campos de 'valor do frete' e 'valor do desconto' mudarem
+    // o valor total do pedido é atualizado
+    valorFrete.addEventListener("input", atualizarValoresProdutos);
+    valorDesconto.addEventListener("input", atualizarValoresProdutos);
+   
+    // Se o valor da quantidade do primeiro produto mudar, o valor total é atualizado
     qtdInputPrimeiraLinha.addEventListener("input", ()=>{
-        valorTotalPrimeiraLinha.value = valorUnitinputPrimeiraLinha.value * qtdInputPrimeiraLinha.value;
+        valorTotalPrimeiraLinha.value = parseFloat(valorUnitinputPrimeiraLinha.value) * parseFloat(qtdInputPrimeiraLinha.value);
+        atualizarValoresProdutos();
     });
 
 
@@ -29,12 +37,13 @@ window.addEventListener("DOMContentLoaded", (event) => {
         });
     }
 
+    // Os nomes dos clientes são filtrados de acordo com o que o usuário digitar
     nomeClienteInput.addEventListener("keyup", () => {
         search(nomeClienteInput, nomesClientesUl);
     });
 
 
-    // Event listeners para os inputs dos nomes dos produtos
+    // Event listeners para o input do nome do produto
     let nomeProdutoInput = document.getElementsByClassName("nome-produto")[0];
     let nomesProdutosUl = document.getElementsByClassName("lista-nomes")[1];
     let listaNomesProdutos = nomesProdutosUl.getElementsByTagName("li");
@@ -45,9 +54,11 @@ window.addEventListener("DOMContentLoaded", (event) => {
     for(let nomeProdutoLi of listaNomesProdutos) {
         nomeProdutoLi.addEventListener("click", () => {
             nomeProdutoInput.value = nomeProdutoLi.innerText;
+            nomeProdutoInput.setAttribute("value", nomeProdutoLi.innerText);
             nomeProdutoInput.setAttribute("qtdmaxima", nomeProdutoLi.getAttribute("qtdmaxima"));
+            nomeProdutoInput.setAttribute("valorunit", nomeProdutoLi.getAttribute("valorunit"));
             nomeProdutoInput.setAttribute("liid", nomeProdutoLi.id);
-            
+
             for(let li of listaNomesProdutos) {
                 li.style.display = "none";
             }
@@ -66,13 +77,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
     });
 
     nomeProdutoInput.addEventListener("change", ()=>{
-        let qtdMaxima = nomeProdutoInput.getAttribute("qtdmaxima");
-        let qtdInput = document.getElementsByClassName("quantidade-produto")[0];
-        qtdInput.value = "1";
-        qtdInput.setAttribute("max", qtdMaxima);
         ultimoInputModificado = nomeProdutoInput;
     });
-    
+
     window.addEventListener("click", () => {
         let produtoExiste = false;
         let listaNomesProdutos = document.getElementById("produtos-section").getElementsByTagName("li");
@@ -82,11 +89,17 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 produtoExiste = true;
                 ultimoInputModificado.setAttribute("qtdmaxima", nomeProdutoLi.getAttribute("qtdmaxima"));
                 ultimoInputModificado.setAttribute("liid", nomeProdutoLi.id);
+                ultimoInputModificado.setAttribute("valorunit", nomeProdutoLi.getAttribute("valorunit"));
                 let ultimoInputModificadoRow = ultimoInputModificado.parentNode.parentNode;
                 let qtdInput = ultimoInputModificadoRow.getElementsByClassName("quantidade-produto")[0];
-                qtdInput.value = "1";
+                let valorUnitInput = ultimoInputModificadoRow.getElementsByClassName("valor-unit-produto")[0];
+                let valorTotalInput = ultimoInputModificadoRow.getElementsByClassName("valor-total-produto")[0];
+                qtdInput.setAttribute("value", "1");
                 qtdInput.setAttribute("max", nomeProdutoLi.getAttribute("qtdmaxima"));
+                valorUnitInput.setAttribute("value", nomeProdutoLi.getAttribute("valorunit"));
+                valorTotalInput.setAttribute("value", parseFloat(valorUnitInput.getAttribute("value")) * parseFloat(qtdInput.getAttribute("value")));
                 removerOpcaoDasOutrasLinhas(ultimoInputModificadoRow);
+                atualizarValoresProdutos();
             }
 
             nomeProdutoLi.style.display = "none";
@@ -132,6 +145,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
         if(opcaoEscolhidaPrimeiraLinha) adicionarOpcaoAsOutrasLinhas(opcaoEscolhidaPrimeiraLinha);
 
         document.getElementById("produtos-section").removeChild(primeiraLinhaProdutos);
+
+        atualizarValoresProdutos();
     });
 
 
@@ -159,12 +174,8 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 }
             }
         });
-    
+
         novaLinhaNomeInput.addEventListener("change", ()=>{
-            let qtdMaxima = novaLinhaNomeInput.getAttribute("qtdmaxima");
-            let qtdInput = novaLinha.getElementsByClassName("quantidade-produto")[0];
-            qtdInput.value = "1";
-            qtdInput.setAttribute("max", qtdMaxima);
             ultimoInputModificado = novaLinhaNomeInput;
         });
 
@@ -186,9 +197,10 @@ window.addEventListener("DOMContentLoaded", (event) => {
             if(opcaoEscolhidaNovaLinha) adicionarOpcaoAsOutrasLinhas(opcaoEscolhidaNovaLinha);
     
             document.getElementById("produtos-section").removeChild(novaLinha);
+
+            atualizarValoresProdutos();
         });
 
-       
 
         // Adicionando listeners para os inputs numéricos da nova linha
         let qtdInputNovaLinha = novaLinha.getElementsByClassName("quantidade-produto")[0];
@@ -196,11 +208,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
         let valorTotalNovaLinha = novaLinha.getElementsByClassName("valor-total-produto")[0];
 
         // Funções que mudam o campo 'valor total' caso os campos de quantidade e valor unitário mudem
-        valorUnitinputNovaLinha.addEventListener("input", ()=>{
-            valorTotalNovaLinha.value = valorUnitinputNovaLinha.value * qtdInputNovaLinha.value;
-        });
         qtdInputNovaLinha.addEventListener("input", ()=>{
-            valorTotalNovaLinha.value = valorUnitinputNovaLinha.value * qtdInputNovaLinha.value;
+            valorTotalNovaLinha.value = parseFloat(valorUnitinputNovaLinha.value) * parseFloat(qtdInputNovaLinha.value);
+            atualizarValoresProdutos();
         });
 
         retirarOpcoesUsadas(novaLinha);
@@ -211,7 +221,9 @@ window.addEventListener("DOMContentLoaded", (event) => {
         for(let nomeProdutoLi of novaLinha.getElementsByTagName("li")) {
             nomeProdutoLi.addEventListener("click", () => {
                 novaLinhaNomeInput.value = nomeProdutoLi.innerText;
+                novaLinhaNomeInput.setAttribute("value", nomeProdutoLi.innerText);
                 novaLinhaNomeInput.setAttribute("qtdmaxima", nomeProdutoLi.getAttribute("qtdmaxima"));
+                novaLinhaNomeInput.setAttribute("valorunit", nomeProdutoLi.getAttribute("valorunit"));
                 novaLinhaNomeInput.setAttribute("liid", nomeProdutoLi.id);
 
                 for(let li of novaLinha.getElementsByTagName("li")) {
@@ -277,6 +289,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
                 opcaoClone.style.display = "none";
                 opcaoClone.setAttribute("qtdmaxima", li.getAttribute("qtdmaxima"));
                 opcaoClone.setAttribute("codigo", li.getAttribute("codigo"));
+                opcaoClone.setAttribute("valorunit", li.getAttribute("valorunit"));
 
                 let rowLi = row.getElementsByTagName("li");
                 let podeAdicionar = true;
@@ -305,6 +318,7 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
     }
 
+    // Função que mostra apenas opções da ul com a substring inserida pelo usuário no input
     function search(input, ul) {
         let filter, li, i, txtValue, codeValue;
         filter = input.value.toUpperCase();
@@ -323,5 +337,24 @@ window.addEventListener("DOMContentLoaded", (event) => {
         }
 
     }
+
+
+    function atualizarValoresProdutos() {
+        let valoresTotaisProdutos = document.getElementsByClassName("valor-total-produto");
+        valoresProdutos.value = 0;
+        let valoresProdutosNumber = 0;
+
+        for(let valorTotalProduto of valoresTotaisProdutos) {
+             let valorTotalProdutoNumber = parseFloat(valorTotalProduto.value);
+             valoresProdutosNumber += valorTotalProdutoNumber;
+        }
+
+        valoresProdutos.value = valoresProdutosNumber;
+
+        if(valorDesconto.value == "") valorDesconto.value = 0;
+        if(valorFrete.value == "") valorFrete.value = 0;
+
+        valorTotalPedido.value = valoresProdutosNumber + parseFloat(valorFrete.value) - parseFloat(valorDesconto.value);
+   }
 
 });
